@@ -1,6 +1,6 @@
 ﻿namespace Smart_Delivery_Management_System.OOP01.Models
 {
-    public struct Shipment
+    public class Shipment
     {
         private decimal _weight;
         private decimal _deliveryFee;
@@ -9,13 +9,13 @@
         public DeliveryAddress _destination;
         public Shipment(string trackingCode)
         {
-            _trackingCode = trackingCode;
-            _deliveryFee = 50;
-            _description = "Unknown";
-            _weight = 1;
+            TrackingCode = trackingCode;
+            DeliveryFee = 50;
+            Description = "Unknown";
+            Weight = 1;
         }
 
-        public Shipment(string trackingCode, string description, int weight, decimal deliveryFee, DeliveryAddress deliveryAddress)
+        public Shipment(string trackingCode, string description, decimal weight, decimal deliveryFee, DeliveryAddress deliveryAddress)
         {
             TrackingCode = trackingCode;
             Description = description;
@@ -42,7 +42,7 @@
             get { return _trackingCode; }
             private set
             {
-                if (!String.IsNullOrEmpty(value) || !String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                     _trackingCode = value;
             }
         }
@@ -57,7 +57,7 @@
             }
             set
             {
-                if (!String.IsNullOrEmpty(value) || !String.IsNullOrWhiteSpace(value))
+                if (!String.IsNullOrWhiteSpace(value))
                     _description = value;
             }
         }
@@ -75,7 +75,7 @@
              }
         }
 
-        public decimal EstimatedCost
+        public virtual decimal EstimatedCost
         {
             get { return DeliveryFee + (Weight * 5); }
         }
@@ -99,14 +99,19 @@
         {
             return  $"trackingCode      : {_trackingCode}\n" +
                     $"description       : {_description}\n" +
-                    $"weight            : {_weight}\n" +
-                    $"deliveryFee       : {_deliveryFee}\n" +
+                    $"weight            : {_weight} KG\n" +
+                    $"deliveryFee       : {_deliveryFee} EGP\n" +
                     $"destination       : {_destination.ToString()}\n" +
-                    $"estimated cost    : {EstimatedCost}";
+                    $"estimated cost    : {EstimatedCost} EGP";
         }
-        public void PrintShipment()
+
+        
+
+        public virtual void PrintShipment()
         {
+            Console.WriteLine();
             Console.WriteLine(ToString());
+            Console.WriteLine();
         }
     }
 }

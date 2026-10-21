@@ -1,10 +1,12 @@
 ﻿namespace Smart_Delivery_Management_System.OOP01.Models
 {
-    internal struct DeliveryCenter
+    internal class DeliveryCenter
     {
-        private const int size = 10;
+        private const int size = 20;
         private int _firstIendxAvailable = 0;
-        private Shipment[]? _shipments;
+        private Shipment[] _shipments;
+
+        public string CenterName { get; set; } = default!;
 
         public DeliveryCenter()
         {
@@ -31,7 +33,7 @@
                 if (0<= index && index < _firstIendxAvailable)
                     return  _shipments[index];
                 else
-                    return default;
+                    return default!;
             }
             set
             {
@@ -52,7 +54,7 @@
                         return _shipments[i];
                     }
                 }
-                return default;
+                return default!;
             }
             
         }
@@ -64,6 +66,35 @@
             _shipments[_firstIendxAvailable ++] = shipment;
 
             return true;
+        }
+
+        public bool RemoveShipment(string trackingCode)
+        {
+            for (int i = 0; i < _firstIendxAvailable; i++)
+            {
+                if (_shipments[i].TrackingCode == trackingCode)
+                {
+                    for (int j = i+1; j < _firstIendxAvailable; j++)
+                    {
+                        _shipments[i] = _shipments[j];
+                    }
+                    -- _firstIendxAvailable;
+                    return true;
+                }
+            }
+            return false;
+        }
+        public void PrintAllShipments()
+        {
+            Console.WriteLine();
+            Console.WriteLine("================ print All Shipments ===============");
+            for (int i = 0; i < _firstIendxAvailable; i++)
+            {
+                Console.WriteLine();
+                _shipments[i].PrintShipment();
+                Console.WriteLine();
+            }
+            Console.WriteLine("====================================================");
         }
     }
 }
