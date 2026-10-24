@@ -25,16 +25,14 @@
 
 		
 
-		public override decimal EstimatedCost
-        {
-			get => DeliveryFee + (Weight * 5) + ExtraFee;
-        }
+		public override decimal EstimatedCost => DeliveryFee + (Weight * 5) + ExtraFee;
 
         public override void PrintShipment()
         {
             Console.WriteLine("Express Shipments: ");
             Console.WriteLine();
             base.PrintShipment();
+            Console.WriteLine($"Extra Fee       : {ExtraFee}\n");
             Console.WriteLine();
             Console.WriteLine("-------------------------------");
             Console.WriteLine();

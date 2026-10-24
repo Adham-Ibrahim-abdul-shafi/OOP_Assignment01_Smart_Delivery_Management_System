@@ -8,4 +8,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Include="OOP01\Models\Part01TheoreticalQuestions.rd" />
+  </ItemGroup>
+
 </Project>

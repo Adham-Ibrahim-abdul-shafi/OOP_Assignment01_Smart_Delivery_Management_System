@@ -6,18 +6,33 @@
         private int _firstIendxAvailable = 0;
         private Shipment[] _shipments;
 
+        private Driver _driver;
+        public Driver driver 
+        {
+            get => _driver;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value.Name))
+                {
+                    _driver = value;
+                }
+            }
+        }
         public string CenterName { get; set; } = default!;
 
         public DeliveryCenter()
         {
             _shipments = new Shipment[size];
+            _driver = default!;
         }
 
         public DeliveryCenter(DeliveryCenter other)
         {
+            _driver = default!;
             _firstIendxAvailable = other._firstIendxAvailable;
             _shipments = new Shipment[size];
-            for (int i = 0; i < _firstIendxAvailable; i++) {
+            for (int i = 0; i < _firstIendxAvailable; i++)
+            {
                 _shipments[i] = new Shipment(other._shipments[i]);
             }
         }
@@ -29,9 +44,10 @@
 
         public Shipment this[int index]
         {
-            get {
-                if (0<= index && index < _firstIendxAvailable)
-                    return  _shipments[index];
+            get
+            {
+                if (0 <= index && index < _firstIendxAvailable)
+                    return _shipments[index];
                 else
                     return default!;
             }
@@ -56,14 +72,14 @@
                 }
                 return default!;
             }
-            
+
         }
 
         public bool AddShipment(Shipment shipment)
         {
             if (_firstIendxAvailable == size) return false;
 
-            _shipments[_firstIendxAvailable ++] = shipment;
+            _shipments[_firstIendxAvailable++] = shipment;
 
             return true;
         }
@@ -74,11 +90,11 @@
             {
                 if (_shipments[i].TrackingCode == trackingCode)
                 {
-                    for (int j = i+1; j < _firstIendxAvailable; j++)
+                    for (int j = i + 1; j < _firstIendxAvailable; j++)
                     {
                         _shipments[i] = _shipments[j];
                     }
-                    -- _firstIendxAvailable;
+                    --_firstIendxAvailable;
                     return true;
                 }
             }
@@ -88,13 +104,16 @@
         {
             Console.WriteLine();
             Console.WriteLine("================ print All Shipments ===============");
-            for (int i = 0; i < _firstIendxAvailable; i++)
+            foreach (Shipment shipment in _shipments)
             {
-                Console.WriteLine();
-                _shipments[i].PrintShipment();
-                Console.WriteLine();
+                {
+                    Console.WriteLine();
+                    shipment.PrintShipment();
+                    Console.WriteLine();
+                }
+                Console.WriteLine("====================================================");
             }
-            Console.WriteLine("====================================================");
         }
     }
 }
+

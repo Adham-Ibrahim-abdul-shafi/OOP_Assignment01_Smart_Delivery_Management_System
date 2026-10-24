@@ -26,15 +26,15 @@
 
         public Shipment(Shipment other)
         {
-            _weight  = other._weight;
+            _weight = other._weight;
             _deliveryFee = other._deliveryFee;
             _description = new string(other._description);
             _trackingCode = new string(other._trackingCode);
             _destination = new DeliveryAddress(other._destination);
         }
 
-        public void UpdateDeliveryAddress(DeliveryAddress newAddress)=> _destination = newAddress;
-        
+        public void UpdateDeliveryAddress(DeliveryAddress newAddress) => _destination = newAddress;
+
 
 
         public string TrackingCode
@@ -52,8 +52,8 @@
 
         public string Description
         {
-            get { 
-                return _description; 
+            get {
+                return _description;
             }
             set
             {
@@ -71,8 +71,8 @@
             private set
             {
                 if (value > 0)
-                   _deliveryFee = value;
-             }
+                    _deliveryFee = value;
+            }
         }
 
         public virtual decimal EstimatedCost
@@ -97,7 +97,7 @@
         public override string ToString()
 
         {
-            return  $"trackingCode      : {_trackingCode}\n" +
+            return $"trackingCode       : {_trackingCode}\n" +
                     $"description       : {_description}\n" +
                     $"weight            : {_weight} KG\n" +
                     $"deliveryFee       : {_deliveryFee} EGP\n" +
@@ -105,13 +105,26 @@
                     $"estimated cost    : {EstimatedCost} EGP";
         }
 
-        
+
 
         public virtual void PrintShipment()
         {
             Console.WriteLine();
             Console.WriteLine(ToString());
             Console.WriteLine();
+        }
+
+
+        public void UpdateWeight(decimal weight){
+               Weight = weight;
+        }
+
+        public void UpdateWeight(decimal weight,decimal extraPackingWeight)
+        {
+            if (Weight >= 0 && extraPackingWeight >= 0)
+                Weight = weight + extraPackingWeight;
+            else
+                throw new InvalidDataException($"{nameof(weight)} or {nameof(extraPackingWeight)} is invalid value");
         }
     }
 }

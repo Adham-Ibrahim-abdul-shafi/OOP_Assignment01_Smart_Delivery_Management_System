@@ -34,6 +34,8 @@
             Console.WriteLine("International Shipments: ");
             Console.WriteLine();
             base.PrintShipment();
+            Console.WriteLine($"Destination Country: {DestinationCountry}\n");
+            Console.WriteLine($"Customs Fee        : {CustomsFee }\n");
             Console.WriteLine();
             Console.WriteLine("-------------------------------");
             Console.WriteLine();
@@ -52,6 +54,12 @@
         }
         
         public override decimal EstimatedCost  => DeliveryFee + (Weight * 5) + CustomsFee; 
-        
+
+        public virtual void GenerateCustomsReport()
+        {
+            Console.WriteLine("welcome in GenerateCustomsReport method :)");
+        }
+
+
     }
 }
