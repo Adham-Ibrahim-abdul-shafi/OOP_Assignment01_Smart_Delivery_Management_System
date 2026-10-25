@@ -8,17 +8,17 @@
             get => _name;
             set
             {
-                if (String.IsNullOrWhiteSpace(value))
+                if (!string.IsNullOrWhiteSpace(value))
                 {
-                    throw new ArgumentNullException(nameof(value));
+                    _name = value;
                 }
-                Name = value;
+               
             }
         } 
 
         public Driver(string name)
         {
-            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Name = name;
         }
 
         

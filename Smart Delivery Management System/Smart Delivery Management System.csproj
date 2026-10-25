@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="OOP01\Models\Part01TheoreticalQuestions.rd" />
+    <None Include="OOP01\Models\Part01TheoreticalQuestions.cs" />
   </ItemGroup>
 
 </Project>

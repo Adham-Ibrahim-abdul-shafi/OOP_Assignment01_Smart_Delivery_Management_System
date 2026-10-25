@@ -1,6 +1,6 @@
-﻿namespace Smart_Delivery_Management_System.OOP01.Models
+﻿namespace Smart_Delivery_Management_System.OOP01.Models.Shipments
 {
-    internal class ExpressShipment : Shipment
+    internal class ExpressShipment : Shipment , IInsurable, ITrackable
     {
 		private decimal _extraFee;
 
@@ -27,11 +27,21 @@
 
 		public override decimal EstimatedCost => DeliveryFee + (Weight * 5) + ExtraFee;
 
+        public decimal CalculateInsurance()
+        {
+            return 0.08m * EstimatedCost;
+        }
+
+        public string GetTrackingState()
+        {
+            return "is Out for Delivery";
+        }
+
         public override void PrintShipment()
         {
             Console.WriteLine("Express Shipments: ");
             Console.WriteLine();
-            base.PrintShipment();
+            Console.WriteLine(base.ToString());
             Console.WriteLine($"Extra Fee       : {ExtraFee}\n");
             Console.WriteLine();
             Console.WriteLine("-------------------------------");

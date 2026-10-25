@@ -1,6 +1,6 @@
-﻿namespace Smart_Delivery_Management_System.OOP01.Models
+﻿namespace Smart_Delivery_Management_System.OOP01.Models.Shipments
 {
-    internal class InternationalShipment : Shipment
+    internal class InternationalShipment : Shipment,IInsurable, ITrackable
     {
         private string _destinationCountry = default!;
         private decimal _customFee;
@@ -33,7 +33,7 @@
         {
             Console.WriteLine("International Shipments: ");
             Console.WriteLine();
-            base.PrintShipment();
+            Console.WriteLine(base.ToString());
             Console.WriteLine($"Destination Country: {DestinationCountry}\n");
             Console.WriteLine($"Customs Fee        : {CustomsFee }\n");
             Console.WriteLine();
@@ -60,6 +60,14 @@
             Console.WriteLine("welcome in GenerateCustomsReport method :)");
         }
 
+        public decimal CalculateInsurance()
+        {
+            return 0.12m * EstimatedCost;
+        }
 
+        public string GetTrackingState()
+        {
+            return "has been Delivered";
+        }
     }
 }

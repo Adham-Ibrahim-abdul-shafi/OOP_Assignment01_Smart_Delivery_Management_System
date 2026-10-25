@@ -1,4 +1,6 @@
-﻿namespace Smart_Delivery_Management_System.OOP01.Models
+﻿using Smart_Delivery_Management_System.OOP01.Models.Shipments;
+
+namespace Smart_Delivery_Management_System.OOP01.Models
 {
     internal class DeliveryCenter
     {
@@ -12,7 +14,7 @@
             get => _driver;
             set
             {
-                if (string.IsNullOrWhiteSpace(value.Name))
+                if (!string.IsNullOrWhiteSpace(value.Name))
                 {
                     _driver = value;
                 }
@@ -26,16 +28,23 @@
             _driver = default!;
         }
 
-        public DeliveryCenter(DeliveryCenter other)
+        public DeliveryCenter(Driver driver)
         {
-            _driver = default!;
-            _firstIendxAvailable = other._firstIendxAvailable;
             _shipments = new Shipment[size];
-            for (int i = 0; i < _firstIendxAvailable; i++)
-            {
-                _shipments[i] = new Shipment(other._shipments[i]);
-            }
+            this.driver = driver;
         }
+
+        //public DeliveryCenter(DeliveryCenter other)
+        //{
+        //    _driver = default!;
+        //    _firstIendxAvailable = other._firstIendxAvailable;
+        //    _shipments = new Shipment[size];
+        //    for (int i = 0; i < _firstIendxAvailable; i++)
+        //    {
+        //        Shipment shipment = new Shipment(other._shipments[i]);
+        //        _shipments[i] = shipment;
+        //    }
+        //}
 
         public override string ToString()
         {
@@ -100,19 +109,60 @@
             }
             return false;
         }
+
+        public void PrintTrackingStatuses()
+        {
+            Console.WriteLine("======================================");
+            Console.WriteLine();
+            Console.WriteLine("Tracking Status");
+            Console.WriteLine();
+
+            foreach (ITrackable shipment in _shipments)
+            {
+                if(shipment != null){
+                    Console.WriteLine();
+                    Console.WriteLine(shipment.GetTrackingState());
+                    Console.WriteLine();
+                }
+            }
+            Console.WriteLine();
+            Console.WriteLine("=====================================");
+            Console.WriteLine();
+        }
+
+        public void PrintInsurable()
+        {
+            Console.WriteLine("======================================");
+            Console.WriteLine();
+            Console.WriteLine("Tracking Status");
+            Console.WriteLine();
+            foreach (IInsurable shipment in _shipments)
+            {
+                if(shipment != null){
+                    Console.WriteLine();
+                    Console.WriteLine(shipment.CalculateInsurance());
+                    Console.WriteLine();
+                }
+            }
+            Console.WriteLine();
+            Console.WriteLine("=====================================");
+            Console.WriteLine();
+        }
+
         public void PrintAllShipments()
         {
             Console.WriteLine();
             Console.WriteLine("================ print All Shipments ===============");
             foreach (Shipment shipment in _shipments)
             {
-                {
+                if(shipment != null){
                     Console.WriteLine();
                     shipment.PrintShipment();
                     Console.WriteLine();
                 }
-                Console.WriteLine("====================================================");
+                
             }
+            Console.WriteLine("===================================================");
         }
     }
 }

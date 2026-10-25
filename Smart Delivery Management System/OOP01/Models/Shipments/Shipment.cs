@@ -1,6 +1,6 @@
 ﻿namespace Smart_Delivery_Management_System.OOP01.Models
 {
-    public class Shipment
+    public abstract class Shipment
     {
         private decimal _weight;
         private decimal _deliveryFee;
@@ -75,15 +75,12 @@
             }
         }
 
-        public virtual decimal EstimatedCost
-        {
-            get { return DeliveryFee + (Weight * 5); }
-        }
+        public abstract decimal EstimatedCost { get; }
 
 
         public decimal Weight
         {
-            get { return _weight; }
+            get => _weight; 
             set
             {
                 if (value > 0)
@@ -107,12 +104,7 @@
 
 
 
-        public virtual void PrintShipment()
-        {
-            Console.WriteLine();
-            Console.WriteLine(ToString());
-            Console.WriteLine();
-        }
+        public abstract void PrintShipment();
 
 
         public void UpdateWeight(decimal weight){
