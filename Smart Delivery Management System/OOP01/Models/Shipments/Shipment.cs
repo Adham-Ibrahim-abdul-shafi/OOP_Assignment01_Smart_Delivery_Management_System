@@ -1,4 +1,7 @@
 ﻿
+using Smart_Delivery_Management_System.OOP01.Models.DataTypes;
+using Smart_Delivery_Management_System.OOP01.Models.Deliveries;
+
 namespace Smart_Delivery_Management_System.OOP01.Models
 {
     internal abstract partial class Shipment 

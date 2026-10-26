@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Smart_Delivery_Management_System.OOP01.Models
+namespace Smart_Delivery_Management_System.OOP01.Models.Interfaces
 {
     internal interface IInsurable
     {

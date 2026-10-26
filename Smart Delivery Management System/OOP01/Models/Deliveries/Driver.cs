@@ -1,4 +1,4 @@
-﻿namespace Smart_Delivery_Management_System.OOP01.Models
+﻿namespace Smart_Delivery_Management_System.OOP01.Models.Deliveries
 {
     internal class Driver
     {

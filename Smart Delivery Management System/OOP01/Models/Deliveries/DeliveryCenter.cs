@@ -1,6 +1,7 @@
-﻿using Smart_Delivery_Management_System.OOP01.Models.Shipments;
+﻿using Smart_Delivery_Management_System.OOP01.Models.Interfaces;
+using Smart_Delivery_Management_System.OOP01.Models.Shipments;
 
-namespace Smart_Delivery_Management_System.OOP01.Models
+namespace Smart_Delivery_Management_System.OOP01.Models.Deliveries
 {
     internal class DeliveryCenter
     {

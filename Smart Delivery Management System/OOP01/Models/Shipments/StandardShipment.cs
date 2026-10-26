@@ -1,4 +1,8 @@
-﻿namespace Smart_Delivery_Management_System.OOP01.Models.Shipments
+﻿using Smart_Delivery_Management_System.OOP01.Models.DataTypes;
+using Smart_Delivery_Management_System.OOP01.Models.Deliveries;
+using Smart_Delivery_Management_System.OOP01.Models.Interfaces;
+
+namespace Smart_Delivery_Management_System.OOP01.Models.Shipments
 {
     internal class StandardShipment : Shipment , IInsurable,ITrackable
     {
