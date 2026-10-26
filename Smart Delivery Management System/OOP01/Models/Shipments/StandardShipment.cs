@@ -4,7 +4,7 @@
     {
         public StandardShipment(string trackingCode) : base(trackingCode) { }
 
-        public StandardShipment(string trackingCode, string description, decimal weight, decimal deliveryFee, DeliveryAddress deliveryAddress) : base(trackingCode, description, weight, deliveryFee, deliveryAddress) { }
+        public StandardShipment(string trackingCode, string description, decimal weight, decimal deliveryFee, DeliveryAddress deliveryAddress,TypesTrackingState trackingState) : base(trackingCode, description, weight, deliveryFee, deliveryAddress,trackingState) { }
 
         public override decimal EstimatedCost => DeliveryFee + (Weight * 5);
 
@@ -13,10 +13,12 @@
             return 0.05m * EstimatedCost;
         }
 
-        public string GetTrackingState()
+        public override Shipment DeepCopy()
         {
-            return "is Ready";
+            return new StandardShipment(TrackingCode, Description, Weight, DeliveryFee, new DeliveryAddress(_destination.City,_destination.Street,_destination.BuildingNumber ),GetTrackingState());
         }
+
+        
 
         public override void PrintShipment()
         {

@@ -1,6 +1,6 @@
 ﻿namespace Smart_Delivery_Management_System.OOP01.Models
 {
-    public struct DeliveryAddress
+    public class DeliveryAddress
     {
         
         public string City { get; set; }

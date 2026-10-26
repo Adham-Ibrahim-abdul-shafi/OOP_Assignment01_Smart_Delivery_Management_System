@@ -13,7 +13,7 @@
             DestinationCountry = destinationCountry;
         }
 
-        public InternationalShipment(string trackingCode, string description, decimal weight, decimal deliveryFee, DeliveryAddress deliveryAddress, decimal customFee, string destinationCountry) : base(trackingCode, description, weight, deliveryFee, deliveryAddress)
+        public InternationalShipment(string trackingCode, string description, decimal weight, decimal deliveryFee, DeliveryAddress deliveryAddress, decimal customFee, string destinationCountry,TypesTrackingState trackingState) : base(trackingCode, description, weight, deliveryFee, deliveryAddress,trackingState)
         {
             CustomsFee = customFee;
             DestinationCountry = destinationCountry;
@@ -65,9 +65,10 @@
             return 0.12m * EstimatedCost;
         }
 
-        public string GetTrackingState()
+
+        public override Shipment DeepCopy()
         {
-            return "has been Delivered";
+            return new InternationalShipment(TrackingCode, Description, Weight, DeliveryFee, _destination, CustomsFee, DestinationCountry,GetTrackingState());
         }
     }
 }

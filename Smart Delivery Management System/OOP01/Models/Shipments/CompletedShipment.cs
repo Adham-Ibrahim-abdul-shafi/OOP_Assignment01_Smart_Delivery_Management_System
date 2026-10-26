@@ -10,11 +10,18 @@ namespace Smart_Delivery_Management_System.OOP01.Models.Shipments
         {
         }
 
-        public CompletedShipment(string trackingCode, string description, decimal weight, decimal deliveryFee, DeliveryAddress deliveryAddress) : base(trackingCode, description, weight, deliveryFee, deliveryAddress)
+        public CompletedShipment(string trackingCode, string description, decimal weight, decimal deliveryFee, DeliveryAddress deliveryAddress,TypesTrackingState trackingState) : base(trackingCode, description, weight, deliveryFee, deliveryAddress,trackingState)
         {
         }
 
         public override decimal EstimatedCost => DeliveryFee + (Weight * 5);
+
+        public override Shipment DeepCopy()
+        {
+            return new CompletedShipment(TrackingCode, Description, Weight, DeliveryFee, _destination,GetTrackingState());
+        }
+
+        
 
         public override void PrintShipment()
         {

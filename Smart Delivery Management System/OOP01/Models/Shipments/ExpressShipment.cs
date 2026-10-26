@@ -9,7 +9,7 @@
 			ExtraFee = extraFee;
 		}
 
-		public ExpressShipment(string trackingCode, string description, decimal weight, decimal deliveryFee, DeliveryAddress deliveryAddress, decimal extraFee) : base(trackingCode, description, weight, deliveryFee, deliveryAddress)
+		public ExpressShipment(string trackingCode, string description, decimal weight, decimal deliveryFee, DeliveryAddress deliveryAddress, decimal extraFee,TypesTrackingState trackingState) : base(trackingCode, description, weight, deliveryFee, deliveryAddress,trackingState)
         {
             ExtraFee = extraFee;
         }
@@ -32,10 +32,12 @@
             return 0.08m * EstimatedCost;
         }
 
-        public string GetTrackingState()
+        public override Shipment DeepCopy()
         {
-            return "is Out for Delivery";
+            return new ExpressShipment(TrackingCode,Description,Weight,DeliveryFee,_destination,ExtraFee,GetTrackingState());
         }
+
+
 
         public override void PrintShipment()
         {

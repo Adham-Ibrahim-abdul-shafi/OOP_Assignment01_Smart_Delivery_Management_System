@@ -63,195 +63,58 @@ namespace Smart_Delivery_Management_System
 
         static void Main(string[] args)
         {
-            /*
-                  Main() Checklist 
-                     ☐  
-               
-            */
-            #region Create a Driver
+            Shipment shipment1 = new StandardShipment("SH001","Laptop",3,80,new DeliveryAddress("Cairo","AL Tahrir",15),TypesTrackingState.Ready);
+            Shipment shipment2 = shipment1;
+            Shipment shipment3 = shipment1.CopyShipment();
 
-            /// Create a Driver.
-            Console.WriteLine("==========================================");
-            Console.WriteLine("Delivery Center ");
-            Console.WriteLine("==========================================");
-
-
+            Console.WriteLine($"Shipment 1 Weight {shipment1.Weight}");
+            Console.WriteLine($"Shipment 2 Weight {shipment2.Weight}");
+            Console.WriteLine($"Shipment 3 Weight {shipment3.Weight}");
             Console.WriteLine();
+
+            shipment2.Weight = 4;
+            shipment3.Weight = 5;
             
-            string driverName;
-            do
-            {
-                Console.Write("Driver :");
-                driverName = Console.ReadLine()!;
-            } while (String.IsNullOrWhiteSpace(driverName));
-             
+            Console.WriteLine("After update weight:");
             Console.WriteLine();
-            Console.WriteLine("------------------------------------------");
-            Driver driver = new Driver(driverName);
-
-            #endregion
-         
-            #region Create a DeliveryCenter
-
-            /// Create a DeliveryCenter.
-            DeliveryCenter deliveryCenter = new DeliveryCenter(driver);
-
-            #endregion
-            
-            #region Assign the Driver to the DeliveryCenter 
-            deliveryCenter.driver = driver;
-            #endregion
-
-            #region a. Create one StandardShipment
-
-            /// a. Create one StandardShipment. 
-            string trackingCode = default!;
-            string description;
-            decimal weight;
-            decimal deliveryFee;
-            DeliveryAddress deliveryAddress;
-            ReadShipment(out trackingCode, out description, out weight, out deliveryFee, out deliveryAddress);
-            StandardShipment standardShipment = new StandardShipment(trackingCode, description, weight, deliveryFee, deliveryAddress);
-            Console.WriteLine();
-            Console.WriteLine();
-            #endregion
-
-            #region b. Create one ExpressShipment
-
-            /// b. Create one ExpressShipment. 
-            ReadShipment(out trackingCode, out description, out weight, out deliveryFee, out deliveryAddress);
-            decimal extraFee = default;
-            do
-            {
-                Console.Write("Enter Extra Fee:");
-            } while (!decimal.TryParse(Console.ReadLine(), out extraFee) || extraFee < 0);
-            ExpressShipment expressShipment = new ExpressShipment(trackingCode, description, weight, deliveryFee, deliveryAddress, extraFee);
-            Console.WriteLine();
-            Console.WriteLine();
-            #endregion
-
-            #region c. Create one InternationalShipment
-
-            /// f. Create one InternationalShipment. 
-            ReadShipment(out trackingCode, out description, out weight, out deliveryFee, out deliveryAddress);
-            decimal customFee;
-            do
-            {
-                Console.Write("Enter Custom Fee:");
-            } while (!decimal.TryParse(Console.ReadLine(), out customFee) || customFee < 0);
-            string destinationCountry;
-            do
-            {
-                Console.Write("Enter Destination Country:");
-                destinationCountry = Console.ReadLine()!;
-            } while (string.IsNullOrWhiteSpace(destinationCountry));
-
-            InternationalShipment internationalShipment = new InternationalShipment(trackingCode, description, weight, deliveryFee, deliveryAddress, customFee, destinationCountry);
-            Console.WriteLine();
-            Console.WriteLine();
-            #endregion
-
-            #region  d. Add all shipments to the DeliveryCenter
-            bool addStandard = deliveryCenter.AddShipment(standardShipment);
-            if (addStandard)
-            {
-                Console.WriteLine("Done add standard shipment");
-            }
-            else
-            {
-                Console.WriteLine("filad add standard shipment");
-            }
+            Console.WriteLine($"Shipment 1 Weight {shipment1.Weight}");
+            Console.WriteLine($"Shipment 2 Weight {shipment2.Weight}");
+            Console.WriteLine($"Shipment 3 Weight {shipment3.Weight}");
             Console.WriteLine();
 
-            bool addExpress = deliveryCenter.AddShipment(expressShipment);
-            if (addExpress)
-            {
-                Console.WriteLine("Done add Express shipment");
-            }
-            else
-            {
-                Console.WriteLine("Filad add Express shipment");
-            }
 
-            Console.WriteLine();
-            bool addInternational = deliveryCenter.AddShipment(internationalShipment);
-            if (addInternational)
-            {
-                Console.WriteLine("Done add International Shipment");
-            }
-            else
-            {
-                Console.WriteLine("Filad add Internatioal shipment");
-            }
-            Console.WriteLine();
-            #endregion
+            shipment2 = shipment1.ShallowCopy();
+            shipment3 = shipment1.DeepCopy();
 
-            #region  e. Print all shipments using PrintAllShipments()
-            deliveryCenter.PrintAllShipments();
-            #endregion
-
-            #region  e. Call DeliveryHelper.PrintShipmentDetails() for each shipment 
-
-            /// i.Call DeliveryHelper.PrintShipmentDetails() for each shipment. 
-            for (int i = 0; i < 3; i++)
-            {
-                Shipment shipment = deliveryCenter[i];
-                DeliveryHelper.PrintShipmentDetails(shipment);
-            }
-
-            #endregion
-
-            #region f. Print the tracking status of every shipment.
-            deliveryCenter.PrintTrackingStatuses();
-            #endregion
-
-            #region g. Print the insurance cost of every shipment.
-            deliveryCenter.PrintInsurable();
-            #endregion
-
-            ITrackable[] trackables =
-            {
-                standardShipment,
-                expressShipment,
-                internationalShipment
-            };
-
-            Console.WriteLine();
-            Console.WriteLine("======================================");
-            Console.WriteLine();
-            Console.WriteLine("Tracking Status");
+            Console.WriteLine($"Shipment 1 Address {shipment1._destination}");
+            Console.WriteLine($"Shipment 2 Address {shipment2._destination}");
+            Console.WriteLine($"Shipment 3 Address {shipment3._destination}");
             Console.WriteLine();
 
-            for (int i = 0; i < 3; i++)
-            {
-                Console.WriteLine();
-                Console.Write($"Shipment {deliveryCenter[i].TrackingCode} ");
-                DeliveryReport.PrintTrackingState(trackables[i]);
-                Console.WriteLine();
-            }
+            shipment2._destination.City = "Giza";
+            shipment2._destination.BuildingNumber = 20;
 
-            IInsurable[] insurables = {
-                standardShipment,
-                expressShipment,
-                internationalShipment
-            };
+            shipment3._destination.City = "Al Sharqia";
+            shipment3._destination.BuildingNumber = 30;
 
+            Console.WriteLine("After update Address:");
             Console.WriteLine();
-            Console.WriteLine("======================================");
+            Console.WriteLine($"Shipment 1 Address {shipment1._destination}");
+            Console.WriteLine($"Shipment 2 Address {shipment2._destination}");
+            Console.WriteLine($"Shipment 3 Address {shipment3._destination}");
             Console.WriteLine();
 
-            Console.WriteLine("Insurance");
-            Console.WriteLine();
-            for (int i = 0; i < 3; i++)
-            {
-                Console.WriteLine();
-                Console.Write($"{deliveryCenter[i].GetType()} : ");
-                DeliveryReport.PrintInsurance(insurables[i]);
-                Console.WriteLine();
-            }
-            Console.WriteLine("========================================");
-            Console.WriteLine();
-            Console.WriteLine("Interface Polymorphism Demonstrated Successfully.");
+
+            Console.WriteLine($"Total Shipments Created : {Shipment.GetTotalShipmentsCreated()} \n");
+
+            DeliveryUtilities.PrintSeparator();
+            DeliveryUtilities.PrintSystemTitle("Smart Delivery Management System ");
+            DeliveryUtilities.PrintSeparator();
+
+
+            Console.WriteLine(shipment1.GetSummary());
+            Console.WriteLine(shipment1.IsDelivered());
+
         }
 
     }

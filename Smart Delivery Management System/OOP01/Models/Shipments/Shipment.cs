@@ -1,7 +1,9 @@
-﻿namespace Smart_Delivery_Management_System.OOP01.Models
+﻿
+namespace Smart_Delivery_Management_System.OOP01.Models
 {
-    public abstract class Shipment
+    internal abstract partial class Shipment 
     {
+        private static int TotalShipmentsCreated;
         private decimal _weight;
         private decimal _deliveryFee;
         private string _description = string.Empty;
@@ -13,15 +15,31 @@
             DeliveryFee = 50;
             Description = "Unknown";
             Weight = 1;
+            _destination = new DeliveryAddress("Unknown", "Unknown", 0);
+
+            ++TotalShipmentsCreated;
         }
 
-        public Shipment(string trackingCode, string description, decimal weight, decimal deliveryFee, DeliveryAddress deliveryAddress)
+        public static int GetTotalShipmentsCreated()
+        {
+            return TotalShipmentsCreated;
+        }
+
+        static Shipment()
+        {
+            TotalShipmentsCreated = 0;
+            Console.WriteLine("Shipment System Initialized");
+        }
+
+        public Shipment(string trackingCode, string description, decimal weight, decimal deliveryFee, DeliveryAddress deliveryAddress,TypesTrackingState trackingState)
         {
             TrackingCode = trackingCode;
             Description = description;
             Weight = weight;
             DeliveryFee = deliveryFee;
             _destination = deliveryAddress;
+            _trackingState = trackingState;
+            ++TotalShipmentsCreated;
         }
 
         public Shipment(Shipment other)
@@ -31,6 +49,8 @@
             _description = new string(other._description);
             _trackingCode = new string(other._trackingCode);
             _destination = new DeliveryAddress(other._destination);
+            _trackingState = other._trackingState;
+            ++TotalShipmentsCreated;
         }
 
         public void UpdateDeliveryAddress(DeliveryAddress newAddress) => _destination = newAddress;
@@ -118,5 +138,21 @@
             else
                 throw new InvalidDataException($"{nameof(weight)} or {nameof(extraPackingWeight)} is invalid value");
         }
+
+        public Shipment CopyShipment() => DeepCopy();
+
+        public abstract Shipment DeepCopy();
+
+        public Shipment ShallowCopy()
+        {
+            return (Shipment)MemberwiseClone();
+        }
+
+
+        partial void OnTrackingStatusChanged(TypesTrackingState newStatus)
+        {
+            Console.WriteLine($"Tracking status changed to: {newStatus} \n");
+        }
+
     }
 }
