@@ -43,8 +43,8 @@
         
         public DeliveryAddress(string city,string street,int buildingNumber) 
         {
-            City = "Unknown";
-            Street = "Unknown";
+            _city = "Unknown";
+            _street = "Unknown";
             BuildingNumber = 0;
             
             

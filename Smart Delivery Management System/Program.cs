@@ -2,30 +2,11 @@
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
 
-
-            //DeliveryAddress deliveryAddress1 = new DeliveryAddress("city1", "street1", 111);
-            //DeliveryAddress deliveryAddress2 = new DeliveryAddress();
-            //deliveryAddress2 = deliveryAddress1;
-            //Console.WriteLine(deliveryAddress1.GetFullAddress());
-            //Console.WriteLine(deliveryAddress2.GetFullAddress());
-
-            //Console.WriteLine("-------------------------------------");
-
-            //deliveryAddress1.City = "city2";
-            //deliveryAddress2.BuildingNumber = 10;
-            //deliveryAddress2.Street = "street2";
-            //Console.WriteLine(deliveryAddress1.GetFullAddress());
-            //Console.WriteLine(deliveryAddress2.GetFullAddress());
-
-            //Console.WriteLine("-----------------------------------");
-            Console.Clear();
-            
-            
             int size = 3;
-            DeliveryCenter deliveryCenter = new DeliveryCenter();
+            DeliveryCenter deliveryCenter = new();
 
             for (int i = 0; i < size; i++) {
                 Console.WriteLine($"Enter Shipment {i+1} Data");
@@ -81,9 +62,9 @@
 
 
                
-                DeliveryAddress deliveryAddress = new DeliveryAddress(city,street,buildingNumber);
+                DeliveryAddress deliveryAddress = new(city,street,buildingNumber);
                 
-                Shipment shipment = new Shipment(trackingCode, description, weight, deluveryFee,deliveryAddress);
+                Shipment shipment = new(trackingCode, description, weight, deluveryFee,deliveryAddress);
 
                 bool addedShimpentSuccessfully = deliveryCenter.AddShipment(shipment);
                 if (addedShimpentSuccessfully)
@@ -131,7 +112,7 @@
             Console.WriteLine("------------ Struct Copy Test ---------------");
 
 
-            DeliveryAddress original = new DeliveryAddress("Cairo", "Tarir Street", 15);
+            DeliveryAddress original = new("Cairo", "Tarir Street", 15);
             DeliveryAddress copy = original;
             Console.WriteLine($"Original Address: {original}");
             Console.WriteLine($"Copied Address: {copy}");

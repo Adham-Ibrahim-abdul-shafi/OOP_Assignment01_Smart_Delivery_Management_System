@@ -1,4 +1,6 @@
-﻿namespace Smart_Delivery_Management_System
+﻿using System.Xml;
+
+namespace Smart_Delivery_Management_System
 {
     public struct Shipment
     {
@@ -15,8 +17,8 @@
 
         public Shipment(string trackingCode, string description, decimal weight, decimal deliveryFee, DeliveryAddress deliveryAddress)
         {
-            TrackingCode = "UnKnown";
-            Description = "UnKnown";
+            _trackingCode = "UnKnown";
+            _description = "UnKnown";
             Weight = 1;
             DeliveryFee = 50;
             Destination = new DeliveryAddress();
@@ -29,7 +31,7 @@
             Destination = deliveryAddress;
         }
 
-        public Shipment(Shipment other) : this(new string(other.TrackingCode), new string(other.Description), other.Weight, other.DeliveryFee, other.Destination)
+        public Shipment(Shipment other) : this(other.TrackingCode, other.Description, other.Weight, other.DeliveryFee, other.Destination)
         {
         
         }
@@ -53,6 +55,9 @@
             {
                 if (!String.IsNullOrWhiteSpace(value))
                     _description = value;
+                //else
+                    //throw new ArgumentException($"{nameof(value)} is null or WhiteSpace");
+
             }
         }
         public decimal DeliveryFee
@@ -62,7 +67,9 @@
             private set
             {
                 if (value > 0)
-                   _deliveryFee = value;
+                    _deliveryFee = value;
+                //else
+                    //throw new ArgumentOutOfRangeException();
              }
         }
         public decimal Weight
@@ -88,7 +95,7 @@
                     $"Description       : {_description}\n" +
                     $"Weight            : {_weight} KG\n" +
                     $"Delivery Fee      : {_deliveryFee} EGP\n" +
-                    $"Destination       : {Destination.ToString()}\n" +
+                    $"Destination       : {Destination}\n" +
                     $"Estimated cost    : {EstimatedCost} EGP";
         }
         public void PrintShipment()
