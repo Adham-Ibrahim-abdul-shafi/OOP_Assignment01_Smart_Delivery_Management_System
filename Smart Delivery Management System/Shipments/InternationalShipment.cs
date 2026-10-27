@@ -1,9 +1,11 @@
-﻿namespace Smart_Delivery_Management_System.OOP01.Models
+﻿using Smart_Delivery_Management_System.Delivery;
+
+namespace Smart_Delivery_Management_System.Shipments
 {
     internal class InternationalShipment : Shipment
     {
-        private string _destinationCountry = default!;
-        private decimal _customFee;
+        private string _destinationCountry = "UnKnown";
+        private decimal _customFee = 0;
 
         
 
@@ -24,8 +26,21 @@
             get => _destinationCountry;
             set
             {
-                if (!string.IsNullOrEmpty(value) && !string.IsNullOrWhiteSpace(value)) 
+                if ( !string.IsNullOrWhiteSpace(value)) 
                     _destinationCountry = value;
+            }
+        }
+
+        public decimal CustomsFee
+        {
+            get => _customFee;
+            set
+            {
+                if (value < 0)
+                {
+                    throw new Exception("Invalid value");
+                }
+                _customFee = value;
             }
         }
 
@@ -39,17 +54,7 @@
             Console.WriteLine();
         }
         
-        public decimal CustomsFee {
-            get => _customFee;
-            set
-            {
-                if(value < 0)
-                {
-                    throw new Exception("Invalid value");
-                }
-                _customFee = value;
-            } 
-        }
+        
         
         public override decimal EstimatedCost  => DeliveryFee + (Weight * 5) + CustomsFee; 
         

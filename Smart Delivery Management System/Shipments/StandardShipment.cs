@@ -1,4 +1,6 @@
-﻿namespace Smart_Delivery_Management_System.OOP01.Models
+﻿using Smart_Delivery_Management_System.Delivery;
+
+namespace Smart_Delivery_Management_System.Shipments
 {
     internal class StandardShipment : Shipment
     {

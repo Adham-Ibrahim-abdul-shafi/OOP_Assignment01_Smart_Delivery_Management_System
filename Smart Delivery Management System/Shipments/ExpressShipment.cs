@@ -1,8 +1,10 @@
-﻿namespace Smart_Delivery_Management_System.OOP01.Models
+﻿using Smart_Delivery_Management_System.Delivery;
+
+namespace Smart_Delivery_Management_System.Shipments
 {
     internal class ExpressShipment : Shipment
     {
-		private decimal _extraFee;
+		private decimal _extraFee = 0;
 
 		public ExpressShipment(string trackingCode,decimal extraFee) : base(trackingCode)
 		{
@@ -16,7 +18,7 @@
 
         public decimal ExtraFee
         {
-			get { return _extraFee; }
+			get => _extraFee;
 			set {
 				if(value >= 0) 
 					_extraFee = value; 

@@ -1,4 +1,6 @@
-﻿namespace Smart_Delivery_Management_System.OOP01.Models
+﻿ using Smart_Delivery_Management_System.Shipments;
+
+namespace Smart_Delivery_Management_System.Delivery
 {
     internal class DeliveryCenter
     {
@@ -6,7 +8,7 @@
         private int _firstIendxAvailable = 0;
         private Shipment[] _shipments;
 
-        public string CenterName { get; set; } = default!;
+        public string CenterName { get; set; } = "Unknown";
 
         public DeliveryCenter()
         {
@@ -38,7 +40,7 @@
             set
             {
                 if (index < _firstIendxAvailable)
-                    _shipments[index] = (Shipment)value!;
+                    _shipments[index] = value;
             }
         }
 
