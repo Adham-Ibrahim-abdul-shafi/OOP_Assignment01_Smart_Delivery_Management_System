@@ -1,28 +1,23 @@
-﻿namespace Smart_Delivery_Management_System.OOP01.Models
+﻿namespace Smart_Delivery_Management_System
 {
     internal struct DeliveryCenter
     {
-        private const int size = 10;
+        private const int _capacity = 10;
         private int _firstIendxAvailable = 0;
-        private Shipment[]? _shipments;
+        private Shipment[] _shipments;
 
         public DeliveryCenter()
         {
-            _shipments = new Shipment[size];
+            _shipments = new Shipment[_capacity];
         }
 
         public DeliveryCenter(DeliveryCenter other)
         {
             _firstIendxAvailable = other._firstIendxAvailable;
-            _shipments = new Shipment[size];
+            _shipments = new Shipment[_capacity];
             for (int i = 0; i < _firstIendxAvailable; i++) {
                 _shipments[i] = new Shipment(other._shipments[i]);
             }
-        }
-
-        public override string ToString()
-        {
-            return $"{_firstIendxAvailable}";
         }
 
         public Shipment this[int index]
@@ -36,7 +31,7 @@
             set
             {
                 if (index < _firstIendxAvailable)
-                    _shipments[index] = (Shipment)value!;
+                    _shipments[index] = value;
             }
         }
 
@@ -59,7 +54,7 @@
 
         public bool AddShipment(Shipment shipment)
         {
-            if (_firstIendxAvailable == size) return false;
+            if (_firstIendxAvailable == _capacity) return false;
 
             _shipments[_firstIendxAvailable ++] = shipment;
 

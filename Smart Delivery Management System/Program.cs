@@ -1,6 +1,4 @@
-﻿using Smart_Delivery_Management_System.OOP01.Models;
-
-namespace Smart_Delivery_Management_System
+﻿namespace Smart_Delivery_Management_System
 {
     internal class Program
     {
@@ -24,24 +22,27 @@ namespace Smart_Delivery_Management_System
 
             //Console.WriteLine("-----------------------------------");
             Console.Clear();
+            
+            
             int size = 3;
             DeliveryCenter deliveryCenter = new DeliveryCenter();
 
             for (int i = 0; i < size; i++) {
                 Console.WriteLine($"Enter Shipment {i+1} Data");
+                
                 string trackingCode;
                 do
                 {
                     Console.Write("Trackong Code: ");
-                    trackingCode = Console.ReadLine();
-                } while (String.IsNullOrEmpty(trackingCode) || String.IsNullOrWhiteSpace(trackingCode));
+                    trackingCode = Console.ReadLine()!;
+                } while (String.IsNullOrWhiteSpace(trackingCode));
 
                 string description;
                 do {
                     Console.Write("Description: ");
-                    description = Console.ReadLine();
-                } while (String.IsNullOrEmpty(description) || String.IsNullOrWhiteSpace(description));
-
+                    description = Console.ReadLine()!;
+                } while (String.IsNullOrWhiteSpace(description));
+                
                 int weight;
                 do {
                     Console.Write("Weight: ");
@@ -54,11 +55,21 @@ namespace Smart_Delivery_Management_System
                 } while (!int.TryParse(Console.ReadLine(), out deluveryFee) || deluveryFee <= 0);
                 
 
-                Console.Write("City: ");
-                string city = Console.ReadLine();
+                
+                string city ;
+                do
+                {
+                    Console.Write("City: ");
+                    city = Console.ReadLine()!;
+                } while (String.IsNullOrWhiteSpace(city));
 
-                Console.Write("Street: ");
-                string street = Console.ReadLine();
+
+                string street ;
+                do
+                {
+                    Console.Write("Street: ");
+                    street = Console.ReadLine()!;
+                } while (String.IsNullOrWhiteSpace(street));
 
 
 
@@ -74,8 +85,8 @@ namespace Smart_Delivery_Management_System
                 
                 Shipment shipment = new Shipment(trackingCode, description, weight, deluveryFee,deliveryAddress);
 
-                bool addShimpentIsSuccessfully = deliveryCenter.AddShipment(shipment);
-                if (addShimpentIsSuccessfully)
+                bool addedShimpentSuccessfully = deliveryCenter.AddShipment(shipment);
+                if (addedShimpentSuccessfully)
                 {
                     Console.WriteLine("\nShipment added successfully\n");
                 }else
@@ -95,30 +106,43 @@ namespace Smart_Delivery_Management_System
 
             }
 
-            Console.Write("Enter tracking code: ");
-            string seacrchCode = Console.ReadLine();
+            
+            string seacrchCode;
+            do
+            {
+                Console.Write("Enter a tracking code to search: ");
+                seacrchCode = Console.ReadLine()!;
+            } while (String.IsNullOrWhiteSpace(seacrchCode));
+
             Shipment shipment1 = deliveryCenter[seacrchCode];
-            if (!shipment1.Equals(default))
+            if (shipment1.TrackingCode is null)
             {
                 Console.WriteLine("Shipment not found");
             }
             else
             {
+                Console.WriteLine("Shipment found");
                 Console.WriteLine($"{shipment1}");
             }
             Console.WriteLine();
             Console.WriteLine();
 
 
-            DeliveryCenter deliveryCenter01 = new DeliveryCenter(deliveryCenter);
-            DeliveryAddress deliveryAddress01 = new DeliveryAddress("Cairo", "Makram Ebeid Street", 20);
-            
-            var shipment01 = deliveryCenter01[0];
-            shipment01.UpdateDeliveryAddress(deliveryAddress01);
-            deliveryCenter01[0] = shipment01; 
+            Console.WriteLine("------------ Struct Copy Test ---------------");
 
-            Console.WriteLine($"Original Address: {deliveryCenter[0]._destination}");
-            Console.WriteLine($"New Address: {deliveryCenter01[0]._destination}");
+
+            DeliveryAddress original = new DeliveryAddress("Cairo", "Tarir Street", 15);
+            DeliveryAddress copy = original;
+            Console.WriteLine($"Original Address: {original}");
+            Console.WriteLine($"Copied Address: {copy}");
+
+
+            copy.Street = "Makram Ebeid Street";
+            copy.BuildingNumber = 20;
+            Console.WriteLine("After Update Copy Address");
+
+            Console.WriteLine($"Original Address: {original}");
+            Console.WriteLine($"Copied Address: {copy}");
 
             
             
