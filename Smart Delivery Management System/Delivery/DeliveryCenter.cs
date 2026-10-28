@@ -1,34 +1,24 @@
-﻿namespace Smart_Delivery_Management_System.OOP01.Models
+﻿using Smart_Delivery_Management_System.Shipments;
+
+namespace Smart_Delivery_Management_System.Delivery
 {
     internal class DeliveryCenter
     {
         private const int size = 20;
         private int _firstIendxAvailable = 0;
         private Shipment[] _shipments;
-
-        private Driver _driver;
-        public Driver driver 
-        {
-            get => _driver;
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value.Name))
-                {
-                    _driver = value;
-                }
-            }
-        }
-        public string CenterName { get; set; } = default!;
+        public string CenterName { get; set; } = "UnKnown";
+        public Driver? Driver { set; get; }
+      
 
         public DeliveryCenter()
         {
             _shipments = new Shipment[size];
-            _driver = default!;
         }
 
         public DeliveryCenter(DeliveryCenter other)
         {
-            _driver = default!;
+            Driver = other.Driver;
             _firstIendxAvailable = other._firstIendxAvailable;
             _shipments = new Shipment[size];
             for (int i = 0; i < _firstIendxAvailable; i++)
@@ -36,6 +26,8 @@
                 _shipments[i] = new Shipment(other._shipments[i]);
             }
         }
+
+       
 
         public override string ToString()
         {
@@ -58,14 +50,14 @@
             }
         }
 
-        public Shipment this[string trcaCode]
+        public Shipment this[string trackingCode]
         {
             get
             {
 
                 for (int i = 0; i < _shipments.Length; i++)
                 {
-                    if (trcaCode == _shipments[i].TrackingCode)
+                    if (trackingCode == _shipments[i].TrackingCode)
                     {
                         return _shipments[i];
                     }

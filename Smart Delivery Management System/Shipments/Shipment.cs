@@ -1,4 +1,6 @@
-﻿namespace Smart_Delivery_Management_System.OOP01.Models
+﻿using Smart_Delivery_Management_System.Delivery;
+
+namespace Smart_Delivery_Management_System.Shipments
 {
     public class Shipment
     {
@@ -6,34 +8,34 @@
         private decimal _deliveryFee;
         private string _description = string.Empty;
         private string _trackingCode = String.Empty;
-        public DeliveryAddress _destination;
-        public Shipment(string trackingCode)
+        public DeliveryAddress Destination { get; set; }
+
+        public Shipment(string trackingCode) : this(trackingCode, "UnKnown", 1, 50, new DeliveryAddress())
         {
-            TrackingCode = trackingCode;
-            DeliveryFee = 50;
-            Description = "Unknown";
-            Weight = 1;
+
         }
 
         public Shipment(string trackingCode, string description, decimal weight, decimal deliveryFee, DeliveryAddress deliveryAddress)
         {
+            _trackingCode = "UnKnown";
+            _description = "UnKnown";
+            Weight = 1;
+            DeliveryFee = 50;
+            Destination = new DeliveryAddress();
+
+
             TrackingCode = trackingCode;
             Description = description;
             Weight = weight;
             DeliveryFee = deliveryFee;
-            _destination = deliveryAddress;
+            Destination = deliveryAddress;
         }
 
-        public Shipment(Shipment other)
+        public Shipment(Shipment other) : this(other.TrackingCode, other.Description, other.Weight, other.DeliveryFee,new DeliveryAddress( other.Destination))
         {
-            _weight = other._weight;
-            _deliveryFee = other._deliveryFee;
-            _description = new string(other._description);
-            _trackingCode = new string(other._trackingCode);
-            _destination = new DeliveryAddress(other._destination);
+
         }
 
-        public void UpdateDeliveryAddress(DeliveryAddress newAddress) => _destination = newAddress;
 
 
 
@@ -75,10 +77,7 @@
             }
         }
 
-        public virtual decimal EstimatedCost
-        {
-            get { return DeliveryFee + (Weight * 5); }
-        }
+        
 
 
         public decimal Weight
@@ -90,9 +89,10 @@
                     _weight = value;
             }
         }
-
-
+        public virtual decimal EstimatedCost =>  DeliveryFee + (Weight * 5); 
+        
         public void UpdateDeliveryFee(decimal newFee) => DeliveryFee = newFee;
+        public void UpdateDeliveryAddress(DeliveryAddress newAddress) => Destination = newAddress;
 
         public override string ToString()
 
@@ -101,7 +101,7 @@
                     $"description       : {_description}\n" +
                     $"weight            : {_weight} KG\n" +
                     $"deliveryFee       : {_deliveryFee} EGP\n" +
-                    $"destination       : {_destination.ToString()}\n" +
+                    $"destination       : {Destination}\n" +
                     $"estimated cost    : {EstimatedCost} EGP";
         }
 
@@ -111,10 +111,10 @@
         {
             Console.WriteLine();
             Console.WriteLine(ToString());
-            Console.WriteLine();
+
         }
-
-
+       
+       //---------------------------------------------------------------------//
         public void UpdateWeight(decimal weight){
                Weight = weight;
         }
@@ -124,7 +124,7 @@
             if (Weight >= 0 && extraPackingWeight >= 0)
                 Weight = weight + extraPackingWeight;
             else
-                throw new InvalidDataException($"{nameof(weight)} or {nameof(extraPackingWeight)} is invalid value");
+                throw new ArgumentOutOfRangeException($"{nameof(weight)} or {nameof(extraPackingWeight)} is invalid value");
         }
     }
 }

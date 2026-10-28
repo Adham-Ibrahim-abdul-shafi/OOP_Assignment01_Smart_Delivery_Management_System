@@ -1,11 +1,13 @@
-﻿namespace Smart_Delivery_Management_System.OOP01.Models
+﻿using Smart_Delivery_Management_System.Delivery;
+
+namespace Smart_Delivery_Management_System.Shipments
 {
     internal class InternationalShipment : Shipment
     {
-        private string _destinationCountry = default!;
-        private decimal _customFee;
+        private string _destinationCountry = "UnKnown";
+        private decimal _customFee = 0;
 
-        
+
 
         public InternationalShipment(string trackingCode, decimal customFee, string destinationCountry) : base(trackingCode)
         {
@@ -20,12 +22,26 @@
         }
 
 
-        public string DestinationCountry {
+        public string DestinationCountry
+        {
             get => _destinationCountry;
             set
             {
-                if (!string.IsNullOrEmpty(value) && !string.IsNullOrWhiteSpace(value)) 
+                if (!string.IsNullOrWhiteSpace(value))
                     _destinationCountry = value;
+            }
+        }
+
+        public decimal CustomsFee
+        {
+            get => _customFee;
+            set
+            {
+                if (value < 0)
+                {
+                    throw new Exception("Invalid value");
+                }
+                _customFee = value;
             }
         }
 
@@ -34,30 +50,18 @@
             Console.WriteLine("International Shipments: ");
             Console.WriteLine();
             base.PrintShipment();
-            Console.WriteLine($"Destination Country: {DestinationCountry}\n");
-            Console.WriteLine($"Customs Fee        : {CustomsFee }\n");
             Console.WriteLine();
             Console.WriteLine("-------------------------------");
             Console.WriteLine();
         }
-        
-        public decimal CustomsFee {
-            get => _customFee;
-            set
-            {
-                if(value < 0)
-                {
-                    throw new Exception("Invalid value");
-                }
-                _customFee = value;
-            } 
-        }
-        
-        public override decimal EstimatedCost  => DeliveryFee + (Weight * 5) + CustomsFee; 
+
+
+
+        public override decimal EstimatedCost => DeliveryFee + (Weight * 5) + CustomsFee;
 
         public virtual void GenerateCustomsReport()
         {
-            Console.WriteLine("welcome in GenerateCustomsReport method :)");
+            Console.WriteLine($"Customs Report Generate for {TrackingCode} -> {DestinationCountry} ");
         }
 
 
