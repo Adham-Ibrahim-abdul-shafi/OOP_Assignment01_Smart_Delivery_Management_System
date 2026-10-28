@@ -1,10 +1,18 @@
-﻿namespace Smart_Delivery_Management_System.OOP01.Models.Shipments
+﻿using Smart_Delivery_Management_System.Delivery;
+using Smart_Delivery_Management_System.Interfaces;
+
+namespace Smart_Delivery_Management_System.Shipments
 {
     internal class StandardShipment : Shipment , IInsurable,ITrackable
     {
-        public StandardShipment(string trackingCode) : base(trackingCode) { }
+        public StandardShipment(string trackingCode) : base(trackingCode) {
+            State = "Is Ready";
+        }
 
-        public StandardShipment(string trackingCode, string description, decimal weight, decimal deliveryFee, DeliveryAddress deliveryAddress) : base(trackingCode, description, weight, deliveryFee, deliveryAddress) { }
+        public StandardShipment(string trackingCode, string description, decimal weight, decimal deliveryFee, DeliveryAddress deliveryAddress) : base(trackingCode, description, weight, deliveryFee, deliveryAddress) 
+        {
+            State = "Is Ready";
+        }
 
         public override decimal EstimatedCost => DeliveryFee + (Weight * 5);
 
@@ -15,7 +23,7 @@
 
         public string GetTrackingState()
         {
-            return "is Ready";
+            return $"Shipment {TrackingCode} {State}";
         }
 
         public override void PrintShipment()

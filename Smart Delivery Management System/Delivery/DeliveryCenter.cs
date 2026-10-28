@@ -1,42 +1,30 @@
-﻿using Smart_Delivery_Management_System.OOP01.Models.Shipments;
+﻿using Smart_Delivery_Management_System.Interfaces;
+using Smart_Delivery_Management_System.Shipments;
 
-namespace Smart_Delivery_Management_System.OOP01.Models
+namespace Smart_Delivery_Management_System.Delivery
 {
     internal class DeliveryCenter
     {
         private const int size = 20;
         private int _firstIendxAvailable = 0;
         private Shipment[] _shipments;
-
-        private Driver _driver;
-        public Driver driver 
-        {
-            get => _driver;
-            set
-            {
-                if (!string.IsNullOrWhiteSpace(value.Name))
-                {
-                    _driver = value;
-                }
-            }
-        }
-        public string CenterName { get; set; } = default!;
-
+        public string CenterName { get; set; } = "UnKnown";
+        public Driver? Driver { set; get; }
+        
         public DeliveryCenter()
         {
             _shipments = new Shipment[size];
-            _driver = default!;
         }
 
         public DeliveryCenter(Driver driver)
         {
             _shipments = new Shipment[size];
-            this.driver = driver;
+            this.Driver = driver;
         }
 
         //public DeliveryCenter(DeliveryCenter other)
         //{
-        //    _driver = default!;
+        //    Driver = default;
         //    _firstIendxAvailable = other._firstIendxAvailable;
         //    _shipments = new Shipment[size];
         //    for (int i = 0; i < _firstIendxAvailable; i++)
@@ -45,11 +33,6 @@ namespace Smart_Delivery_Management_System.OOP01.Models
         //        _shipments[i] = shipment;
         //    }
         //}
-
-        public override string ToString()
-        {
-            return $"{_firstIendxAvailable}";
-        }
 
         public Shipment this[int index]
         {
@@ -110,6 +93,24 @@ namespace Smart_Delivery_Management_System.OOP01.Models
             return false;
         }
 
+        
+        public void PrintAllShipments()
+        {
+            Console.WriteLine();
+            Console.WriteLine("================ print All Shipments ===============");
+            foreach (Shipment shipment in _shipments)
+            {
+                if(shipment != null){
+                    Console.WriteLine();
+                    shipment.PrintShipment();
+                    Console.WriteLine();
+                }
+                
+            }
+            Console.WriteLine("===================================================");
+        }
+
+
         public void PrintTrackingStatuses()
         {
             Console.WriteLine("======================================");
@@ -119,7 +120,8 @@ namespace Smart_Delivery_Management_System.OOP01.Models
 
             foreach (ITrackable shipment in _shipments)
             {
-                if(shipment != null){
+                if (shipment != null)
+                {
                     Console.WriteLine();
                     Console.WriteLine(shipment.GetTrackingState());
                     Console.WriteLine();
@@ -136,11 +138,12 @@ namespace Smart_Delivery_Management_System.OOP01.Models
             Console.WriteLine();
             Console.WriteLine("Tracking Status");
             Console.WriteLine();
-            foreach (IInsurable shipment in _shipments)
+            foreach (Shipment shipment1 in _shipments)
             {
-                if(shipment != null){
+                if (shipment1 is IInsurable shipment)
+                {
                     Console.WriteLine();
-                    Console.WriteLine(shipment.CalculateInsurance());
+                    Console.WriteLine($"Shipment {shipment} Insurance = {shipment.CalculateInsurance()}");
                     Console.WriteLine();
                 }
             }
@@ -149,21 +152,6 @@ namespace Smart_Delivery_Management_System.OOP01.Models
             Console.WriteLine();
         }
 
-        public void PrintAllShipments()
-        {
-            Console.WriteLine();
-            Console.WriteLine("================ print All Shipments ===============");
-            foreach (Shipment shipment in _shipments)
-            {
-                if(shipment != null){
-                    Console.WriteLine();
-                    shipment.PrintShipment();
-                    Console.WriteLine();
-                }
-                
-            }
-            Console.WriteLine("===================================================");
-        }
     }
 }
 

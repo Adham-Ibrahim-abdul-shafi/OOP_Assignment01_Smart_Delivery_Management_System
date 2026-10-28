@@ -1,17 +1,23 @@
-﻿namespace Smart_Delivery_Management_System.OOP01.Models.Shipments
+﻿using Smart_Delivery_Management_System.Delivery;
+using Smart_Delivery_Management_System.Interfaces;
+
+namespace Smart_Delivery_Management_System.Shipments
 {
     internal class ExpressShipment : Shipment , IInsurable, ITrackable
     {
-		private decimal _extraFee;
+		private decimal _extraFee = 0;
 
 		public ExpressShipment(string trackingCode,decimal extraFee) : base(trackingCode)
 		{
 			ExtraFee = extraFee;
-		}
+            State = "is Out for Delivery";
+
+        }
 
 		public ExpressShipment(string trackingCode, string description, decimal weight, decimal deliveryFee, DeliveryAddress deliveryAddress, decimal extraFee) : base(trackingCode, description, weight, deliveryFee, deliveryAddress)
         {
             ExtraFee = extraFee;
+            State = "is Out for Delivery";
         }
 
         public decimal ExtraFee
@@ -27,15 +33,11 @@
 
 		public override decimal EstimatedCost => DeliveryFee + (Weight * 5) + ExtraFee;
 
-        public decimal CalculateInsurance()
-        {
-            return 0.08m * EstimatedCost;
-        }
+        public decimal CalculateInsurance() => 0.08m * EstimatedCost;
+        
 
-        public string GetTrackingState()
-        {
-            return "is Out for Delivery";
-        }
+        public string GetTrackingState() => State;
+        
 
         public override void PrintShipment()
         {
