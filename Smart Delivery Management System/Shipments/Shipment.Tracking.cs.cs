@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Smart_Delivery_Management_System.OOP01.Models.DataTypes;
-using Smart_Delivery_Management_System.OOP01.Models.Interfaces;
+using Smart_Delivery_Management_System.DataTypes;
+using Smart_Delivery_Management_System.Interfaces;
 
 namespace Smart_Delivery_Management_System.OOP01.Models
 {
@@ -12,6 +12,15 @@ namespace Smart_Delivery_Management_System.OOP01.Models
         
 
         private TypesTrackingState _trackingState = TypesTrackingState.Ready;
+
+                    
+
+        public TypesTrackingState TrackingState
+        {
+            get { return _trackingState; }
+            set { _trackingState = value; }
+        }
+
         public TypesTrackingState GetTrackingState()
         {
             return _trackingState;

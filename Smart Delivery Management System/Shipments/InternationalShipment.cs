@@ -1,26 +1,29 @@
-﻿using Smart_Delivery_Management_System.OOP01.Models.DataTypes;
-using Smart_Delivery_Management_System.OOP01.Models.Deliveries;
-using Smart_Delivery_Management_System.OOP01.Models.Interfaces;
+﻿using Smart_Delivery_Management_System.DataTypes;
+using Smart_Delivery_Management_System.Deliveries;
+using Smart_Delivery_Management_System.Interfaces;
+using Smart_Delivery_Management_System.OOP01.Models;
 
-namespace Smart_Delivery_Management_System.OOP01.Models.Shipments
+namespace Smart_Delivery_Management_System.Shipments
 {
     internal class InternationalShipment : Shipment,IInsurable, ITrackable
     {
-        private string _destinationCountry = default!;
-        private decimal _customFee;
+        private string _destinationCountry = "UnKnown";
+        private decimal _customFee = 0;
 
-        
+
 
         public InternationalShipment(string trackingCode, decimal customFee, string destinationCountry) : base(trackingCode)
         {
             CustomsFee = customFee;
             DestinationCountry = destinationCountry;
+            TrackingState = TypesTrackingState.Delivered;
         }
 
         public InternationalShipment(string trackingCode, string description, decimal weight, decimal deliveryFee, DeliveryAddress deliveryAddress, decimal customFee, string destinationCountry,TypesTrackingState trackingState) : base(trackingCode, description, weight, deliveryFee, deliveryAddress,trackingState)
         {
             CustomsFee = customFee;
             DestinationCountry = destinationCountry;
+            TrackingState = TypesTrackingState.Delivered;
         }
 
 
@@ -28,7 +31,7 @@ namespace Smart_Delivery_Management_System.OOP01.Models.Shipments
             get => _destinationCountry;
             set
             {
-                if (!string.IsNullOrEmpty(value) && !string.IsNullOrWhiteSpace(value)) 
+                if (!string.IsNullOrWhiteSpace(value)) 
                     _destinationCountry = value;
             }
         }
@@ -57,11 +60,12 @@ namespace Smart_Delivery_Management_System.OOP01.Models.Shipments
             } 
         }
         
-        public override decimal EstimatedCost  => DeliveryFee + (Weight * 5) + CustomsFee; 
+        public override decimal EstimatedCost  => DeliveryFee + (Weight * 5) + CustomsFee;
+
 
         public virtual void GenerateCustomsReport()
         {
-            Console.WriteLine("welcome in GenerateCustomsReport method :)");
+            Console.WriteLine($"Customs Report Generate for {TrackingCode} -> {DestinationCountry} ");
         }
 
         public decimal CalculateInsurance()
@@ -72,7 +76,7 @@ namespace Smart_Delivery_Management_System.OOP01.Models.Shipments
 
         public override Shipment DeepCopy()
         {
-            return new InternationalShipment(TrackingCode, Description, Weight, DeliveryFee, _destination, CustomsFee, DestinationCountry,GetTrackingState());
+            return new InternationalShipment(TrackingCode, Description, Weight, DeliveryFee, Destination.DeepCopy(), CustomsFee, DestinationCountry,GetTrackingState());
         }
     }
 }

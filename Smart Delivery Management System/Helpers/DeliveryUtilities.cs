@@ -1,4 +1,4 @@
-﻿namespace Smart_Delivery_Management_System.OOP01.Models.Helpers
+﻿namespace Smart_Delivery_Management_System.Helpers
 {
     internal static class DeliveryUtilities
     {
@@ -7,14 +7,12 @@
             Console.WriteLine("=========================================================");
         }
 
-        static public void PrintSystemTitle()
-        {
-            Console.WriteLine("Delivery Center ");
-        }
 
         static public void PrintSystemTitle(string SystemName)
         {
-            Console.WriteLine($"Delivery Center : {SystemName}");
+            PrintSeparator();
+            Console.WriteLine(SystemName);
+            PrintSeparator();
         }
     }
 }

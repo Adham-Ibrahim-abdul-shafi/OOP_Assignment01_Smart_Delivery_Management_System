@@ -1,6 +1,6 @@
 ﻿
-using Smart_Delivery_Management_System.OOP01.Models.DataTypes;
-using Smart_Delivery_Management_System.OOP01.Models.Deliveries;
+using Smart_Delivery_Management_System.DataTypes;
+using Smart_Delivery_Management_System.Deliveries;
 
 namespace Smart_Delivery_Management_System.OOP01.Models
 {
@@ -9,18 +9,41 @@ namespace Smart_Delivery_Management_System.OOP01.Models
         private static int TotalShipmentsCreated;
         private decimal _weight;
         private decimal _deliveryFee;
-        private string _description = string.Empty;
-        private string _trackingCode = String.Empty;
-        public DeliveryAddress _destination;
-        public Shipment(string trackingCode)
+        private string _description = "UnKnown";
+        private string _trackingCode = "UnKnown";
+        public DeliveryAddress Destination {  get; set; }
+        public Shipment(string trackingCode) : this(trackingCode, "UnKnown", 1, 50, new DeliveryAddress(),TypesTrackingState.Ready)
         {
-            TrackingCode = trackingCode;
-            DeliveryFee = 50;
-            Description = "Unknown";
-            Weight = 1;
-            _destination = new DeliveryAddress("Unknown", "Unknown", 0);
+            
+        }
 
+        public Shipment(string trackingCode, string description, decimal weight, decimal deliveryFee, DeliveryAddress deliveryAddress,TypesTrackingState trackingState)
+        {
+            _trackingCode = "UnKnown";
+            _description = "UnKnown";
+            Weight = 1;
+            DeliveryFee = 50;
+            Destination = new DeliveryAddress();
+            TrackingState = TypesTrackingState.Ready;
+
+
+            TrackingCode = trackingCode;
+            Description = description;
+            Weight = weight;
+            DeliveryFee = deliveryFee;
+            Destination = deliveryAddress;
+            TrackingState = trackingState;
             ++TotalShipmentsCreated;
+        }
+
+        public Shipment(Shipment other) : this(other.TrackingCode, other.Description, other.Weight, other.DeliveryFee, new DeliveryAddress(other.Destination),other.TrackingState)
+        {
+            
+        }
+        static Shipment()
+        {
+            TotalShipmentsCreated = 0;
+            Console.WriteLine("Shipment System Initialized");
         }
 
         public static int GetTotalShipmentsCreated()
@@ -28,35 +51,10 @@ namespace Smart_Delivery_Management_System.OOP01.Models
             return TotalShipmentsCreated;
         }
 
-        static Shipment()
-        {
-            TotalShipmentsCreated = 0;
-            Console.WriteLine("Shipment System Initialized");
-        }
+        
 
-        public Shipment(string trackingCode, string description, decimal weight, decimal deliveryFee, DeliveryAddress deliveryAddress,TypesTrackingState trackingState)
-        {
-            TrackingCode = trackingCode;
-            Description = description;
-            Weight = weight;
-            DeliveryFee = deliveryFee;
-            _destination = deliveryAddress;
-            _trackingState = trackingState;
-            ++TotalShipmentsCreated;
-        }
-
-        public Shipment(Shipment other)
-        {
-            _weight = other._weight;
-            _deliveryFee = other._deliveryFee;
-            _description = new string(other._description);
-            _trackingCode = new string(other._trackingCode);
-            _destination = new DeliveryAddress(other._destination);
-            _trackingState = other._trackingState;
-            ++TotalShipmentsCreated;
-        }
-
-        public void UpdateDeliveryAddress(DeliveryAddress newAddress) => _destination = newAddress;
+       
+        public void UpdateDeliveryAddress(DeliveryAddress newAddress) => Destination = newAddress;
 
 
 
@@ -121,7 +119,7 @@ namespace Smart_Delivery_Management_System.OOP01.Models
                     $"description       : {_description}\n" +
                     $"weight            : {_weight} KG\n" +
                     $"deliveryFee       : {_deliveryFee} EGP\n" +
-                    $"destination       : {_destination.ToString()}\n" +
+                    $"destination       : {Destination.ToString()}\n" +
                     $"estimated cost    : {EstimatedCost} EGP";
         }
 
@@ -155,6 +153,11 @@ namespace Smart_Delivery_Management_System.OOP01.Models
         partial void OnTrackingStatusChanged(TypesTrackingState newStatus)
         {
             Console.WriteLine($"Tracking status changed to: {newStatus} \n");
+        }
+
+        public void PrintTrackingState()
+        {
+            Console.WriteLine($"Shipment {TrackingCode} {TrackingState}");
         }
 
     }

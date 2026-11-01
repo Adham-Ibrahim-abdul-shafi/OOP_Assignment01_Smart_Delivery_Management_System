@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Smart_Delivery_Management_System.OOP01.Models.DataTypes;
-using Smart_Delivery_Management_System.OOP01.Models.Deliveries;
+using Smart_Delivery_Management_System.DataTypes;
+using Smart_Delivery_Management_System.Deliveries;
 
-namespace Smart_Delivery_Management_System.OOP01.Models.Shipments
+namespace Smart_Delivery_Management_System.Shipments
 {
     internal class PriorityInternationalShipment : InternationalShipment
     {
@@ -18,7 +18,7 @@ namespace Smart_Delivery_Management_System.OOP01.Models.Shipments
 
         public override sealed void GenerateCustomsReport()
         {
-            
+            Console.WriteLine($"[Priority] Customs Report Generate for {TrackingCode} -> {DestinationCountry} ");
         }
     }
 }
